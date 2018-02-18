@@ -7,6 +7,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/*
+    A message from the developer:
+
+    I don't know why I built this class, with a ton of methods I don't use. It seemed like they would
+    be needed at some point, but... nope. Anyways, if you find a use for them go right on ahead and
+    use them. I won't be there to judge your decision.
+ */
+
 public class FileUtils {
 
     /**
