@@ -1,0 +1,65 @@
+Planning for "Game Of Life game" (unofficial title)
+
+Aspects of life to include (represented by classes):
+- Life (Main class of the character)
+- Car
+- Job
+- House
+- Country
+
+Car:
+- Name (String)
+- Base Price (int)
+- Total Price (int) (determined in-game)
+- Engine (4C (0) / V6 (1) / V8 (2) / Electric (3))
+- Doors (2 door (0), 4 door (1), 5 door (2))
+- Model (Sedan (0), Coupe (1), Sport (2), Deluxe (3))
+- Reliability (int) (1-100)
+- Insurance payment (Divide total price by 24) (determined in-game)
+Price shown to player determined by multiplying each higher class. Example:
+	Base = Something reasonable
+	Engine = 4C (x1.00), V6 (x1.5), V8 (x1.75), Electric (x2.00)
+	Doors = 2 (x1.2), 4 (x1.3), 5 (x1.4)
+	Model = Sedan (x1.00), Coupe (x1.5), Sport (x2.0), Deluxe (x2.5)
+	Reliability = x1.abc meaning if reliability is 50, it would be x1.50 or x2.00 for 100
+	Insurance = take all the previous and divide by 24
+Format in .conf file:
+	car {
+	name=Example Vehicle
+	basePrice=16000
+	engine=1
+	doors=1
+	model=0
+	reliability=65
+	}
+
+Job:
+- Company (String)
+- Position (String)
+- Rank (int) (1-10) (Essentially, grunt work -> CEO)
+- Hourly Wage (int) (Country minimum - infinite) (wage of 0 indicates minimum)
+- Hours per week (int) (greater than Country minimum)
+- Work Experience (int) (1-100) (How much Life.workXp is needed to work, see Life planning for more info)
+- Safety (int) (1-100) (Risk factor. The lower the Safety, the greater the chance of injury)
+- Growth (int) (1-100) (Chance of being promoted)
+- Happiness (int) (-50 - 50) (Does the job make you happier or less happy?)
+
+House:
+- Type (int) (House = 0, Apartment = 1, Condo = 3, Mansion = 4)
+- Floors (int > 0)
+- Bedrooms (int > 0)
+- Bathrooms (int > 0)
+- Maintnence (int) (1-100) (Chance of needing plumber or electrician)
+- Neighbourhood (int) (1-100) (Safety of area, 1 being YOU WILL BE ROBBED AT GUNPOINT and 100 being HAVE A COOKIE SWEETHEART ITS BRAN SO ITS GOOD FOR YOU)
+- Price (int)
+- Base Price (int)
+- Insurance (int)
+Price shown to player determined by multiplying each higher class. Example:
+	Base = something reasonable
+	Type = * 1 + x
+	Floors = * 1.x
+	Bedrooms = * 1.x
+	Bathrooms = * 1.x
+	Maintnence = * 1.(100-abc)
+	Neighbourhood = * 1.abc
+	PRICE = base * (1 + type) * (1 + (floors / 10)) * (1 + (bedrooms / 10)) * (1 + (bathrooms / 10)) * (1 + ((100 - maintnence) / 100)) * (1 + (neighbourhood / 100))
