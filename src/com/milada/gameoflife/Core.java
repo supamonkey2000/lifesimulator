@@ -2,6 +2,8 @@ package com.milada.gameoflife;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Pattern;
 
 public class Core {
 
@@ -9,7 +11,7 @@ public class Core {
     public static final int LOG_TYPE_INFO = 0; // Used for logging Information to the console, NOT the UI
     public static final int LOG_TYPE_WARN = 1; // Warnings. Something with a Warning won't break the game, but something has gone wrong
     public static final int LOG_TYPE_ERROR = 2; // If this shows then something broke the game
-    public static final int INSURANCE_FACTOR = 24; // Total price of insured it items divided by [this]. This is what you pay per month for those items
+    public static final int INSURANCE_FACTOR = 300; // Total price of insured it items divided by [this]. This is what you pay per month for those items
 
     public static final String NULL_STRING = "{NULL}"; // Since an EMPTY String isn't a NULL string, I made this for if a config file is invalid
     public static final String GAME_TITLE = "Simulife"; // The games name, as shown to the console and the UI (not the same as the package name)
@@ -22,6 +24,8 @@ public class Core {
     // Package variables
     static UI ui; // This is the UI. Say hello, it's friendly.
 
+    static Life life;
+
     /**
      * Main class
      * @param args Program arguments array
@@ -31,6 +35,7 @@ public class Core {
         readBaseConfigurations(); // Read the configuration files.
         ui = new UI(); // Initiate the UI
         ui.build(); // Build the UI (Yeah this could be shoved into the previous line but I chose this way)
+        life = new Life();
     }
 
     /**
@@ -41,6 +46,57 @@ public class Core {
         if (!UI.setLanguage()) exit(1); // Set the UI language
         if (!Car.readDefaultCars()) exit(1); // Build the car objects
         if (!Job.readDefaultJobs()) exit(1); // Build the job objects
+        if (!House.readDefaultHouses()) exit(1); // Build the house objects
+        if (!Name.readDefaultNames()) exit(1);
+        if (!Country.readDefaultCountries()) exit(1);
+        if (!Education.readDefaultEducation()) exit(1);
+    }
+
+    static Object parseConfigInput(String input) {
+        if (input.startsWith("*")) {
+            input = input.replace("*", "");
+            if (input.startsWith("int")) {
+                input = input.replace("int","");
+                return Integer.parseInt(getOptionsResult(input));
+            }
+            if (input.startsWith("long")) {
+                input = input.replace("long","");
+                return Long.parseLong(getOptionsResult(input));
+            }
+            if (input.startsWith("string")) {
+                input = input.replace("string","");
+                return getOptionsResult(input);
+            }
+            if (input.startsWith("boolean")) {
+                return Core.getRandomInteger(0, 2) == 1;
+            }
+            else {
+                exit(1);
+                return null;
+            }
+        } else {
+            try {
+                return Integer.parseInt(input);
+            }catch(Exception ex){}
+            try {
+                return Long.parseLong(input);
+            }catch(Exception ex){}
+            return input;
+        }
+    }
+
+    private static String getOptionsResult(String input) {
+        input = input.replace("(","");
+        input = input.replace(")","");
+        if (input.contains("-")) {
+            String[] range = input.split(Pattern.quote("-"));
+            return Integer.toString(getRandomInteger(Integer.parseInt(range[0]), Integer.parseInt(range[1])));
+        } else if (input.contains(",")) {
+            String[] options = input.split(Pattern.quote(","));
+            return input.split(Pattern.quote(","))[getRandomInteger(0, options.length)];
+        } else {
+            return NULL_STRING;
+        }
     }
 
     /**
@@ -75,6 +131,10 @@ public class Core {
         } catch (Exception stack) {
             return stack.getStackTrace()[1].getClassName();
         }
+    }
+
+    static int getRandomInteger(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max);
     }
 
     /**

@@ -6,6 +6,9 @@ Aspects of life to include (represented by classes):
 - Job
 - House
 - Country
+- Education
+
+All config files support using value=*TYPE(Options), where * means random, type can be Integer, Long, Boolean, etc and Options can be a list separated by commas or a range using a hyphen. For cases where no Options are set, Integer and Long use a range of 0-Type.Max. When no String options are set, game closes as the file is invalid
 
 Car:
 - Name (String)
@@ -43,9 +46,12 @@ Job:
 - Safety (int) (1-100) (Risk factor. The lower the Safety, the greater the chance of injury)
 - Growth (int) (1-100) (Chance of being promoted)
 - Happiness (int) (-50 - 50) (Does the job make you happier or less happy?)
+- Vacation Time (int) (months of vacation per year)
+- Vacation pay (boolean) (payed for vacations?)
+- Requirements (String's, comma-delimited) (What certificates are needed to work here)
 
 House:
-- Type (int) (House = 0, Apartment = 1, Condo = 3, Mansion = 4)
+- Type (int) (Apartment = 0, House = 1, Condo = 2, Mansion = 3)
 - Floors (int > 0)
 - Bedrooms (int > 0)
 - Bathrooms (int > 0)
@@ -63,3 +69,93 @@ Price shown to player determined by multiplying each higher class. Example:
 	Maintnence = * 1.(100-abc)
 	Neighbourhood = * 1.abc
 	PRICE = base * (1 + type) * (1 + (floors / 10)) * (1 + (bedrooms / 10)) * (1 + (bathrooms / 10)) * (1 + ((100 - maintnence) / 100)) * (1 + (neighbourhood / 100))
+
+Country:
+- Name (String)
+- Population (int)
+- Free (boolean)
+- Health (int) (1-100) (Nationwide healthiness, i.e. first world country would be around 80)
+- Free Healthcare (boolean)
+- Free Education (boolean) (ONLY for public education (i.e. Grades 1-12), uni has set prices)
+- Minimum Wage (int)
+- Environment (int) (1-100) (Quality of living. Lower has higher change of disasters)
+- Foreign Relations (int) (1-100) (How well does the country get along with the world. Lower has higher risk of war)
+- Conscription (boolean)
+- Minimum working age (int)
+- Minimum military age (int)
+- Military strength (int) (1-100) (Chance of the country winning a war)
+- Tax (int) (percentage on everything you purchase)
+- Income tax (int) (percentage on what you earn INCLUDING lottery)
+- Pension (boolean) (Life can only be eligible if they retire) (minimum wage times 2)
+- Work Visa Required (boolean) (Do you need a Visa to work in the country?)
+
+Education:
+- Type (int) (Primary school = 0; secondary = 1; University = 2)
+- Quality (int) (1-100) (Influences work experience and education levels)
+- Cost per year (int) (If freeEducation=true, this has no effect on primary or secondary)
+- Entry Requirements (int) (apply only to type=2) (education level)
+- Graduation Requirements (int) (what Grades does your Life need)
+- Certificates (String's, comma-delimited) (Some jobs can require specific certificates. Secondary ALWAYS offers a Diploma. Certificates are essentially courses, i.e. an "Education" certificate)
+
+Life:
+- Name (String) (Your name. Based off names from your Life's country)
+- Gender (int) (male = 0; female = 1)
+- Age (int) (greater than 0)
+- Nationality (Country) (can change if they emigrate)
+- Appearance (int) (1-100)
+- Fitness (int) (1-100)
+- Intelligence (int) (1-100) (changes based off education, study habits)
+- Social (int) (1-100) (Are they shy? Can they get a date? Do friends invite them places? Social Media?)
+- Certificates (String's, comma-delimited)
+- Drivers License (boolean)
+- Work Visa (String, either Country.name or null string. No visa needed for home country)
+- Job (Job) (only 1 at a time)
+- Houses (House's)
+- Cars (Car's)
+ Other variables:
+- completedPrimay (boolean)
+- completedSecondary (boolean)
+- enrolled (boolean)
+- enrolledIn (String)
+- studying (boolean)
+- currentGrade (int)
+- BANK ACCOUNT (int)
+
+Panel planning:
+Education Panel:
+- Start/Stop studying Button
+- Currently enrolled in
+- Current grade
+- Grade required
+- Dropout (if in school)
+- Upgrade (if no Diploma)
+- Apply for University
+- Certificates earned
+
+Job Panel:
+- Current Job (Company: Position)
+- Wage + Hours per week (wage per hour @ hoursPerWeek per week)
+- Ask for a raise
+- Ask for a promotion
+- Quit
+- Retire
+- Job details
+
+Family Panel:
+- 
+
+Property Panel:
+- Net Worth
+- Monthly insurance
+- Cars Button
+- Houses Button
+- Items Button
+
+Personal Panel:
+
+
+Actions Panel:
+
+
+Stats Panel:
+

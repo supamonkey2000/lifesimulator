@@ -6,9 +6,9 @@ import java.util.regex.Pattern;
 public class Car {
     public static ArrayList<Car> CAR_LIST = new ArrayList<>();
 
-    private String name;
-    private int basePrice, engine, doors, model, reliability;
-    private int totalPrice, insurance;
+    String name;
+    int basePrice, engine, doors, model, reliability;
+    int totalPrice, insurance;
 
     public Car(String name, int basePrice, int engine, int doors, int model, int reliability) {
         this.name = name;
@@ -36,7 +36,7 @@ public class Car {
                 return false;
             }
         }
-        Core.log("Finished reading default Car configuration", Core.LOG_TYPE_INFO, Core.getClassName());
+        //Core.log("Finished reading default Car configuration", Core.LOG_TYPE_INFO, Core.getClassName());
         return true;
     }
 
@@ -46,12 +46,12 @@ public class Car {
 
         String[] lines = car.split("\n");
         for (String line : lines) {
-            if (line.startsWith("name")) name = line.split(Pattern.quote("="))[1];
-            if (line.startsWith("basePrice")) basePrice = Integer.parseInt(line.split(Pattern.quote("="))[1]);
-            if (line.startsWith("engine")) engine = Integer.parseInt(line.split(Pattern.quote("="))[1]);
-            if (line.startsWith("doors")) doors = Integer.parseInt(line.split(Pattern.quote("="))[1]);
-            if (line.startsWith("model")) model = Integer.parseInt(line.split(Pattern.quote("="))[1]);
-            if (line.startsWith("reliability")) reliability = Integer.parseInt(line.split(Pattern.quote("="))[1]);
+            if (line.startsWith("name")) name = (String) Core.parseConfigInput(line.split(Pattern.quote("="))[1]);
+            if (line.startsWith("basePrice")) basePrice = (Integer) Core.parseConfigInput(line.split(Pattern.quote("="))[1]);
+            if (line.startsWith("engine")) engine = (Integer) Core.parseConfigInput(line.split(Pattern.quote("="))[1]);
+            if (line.startsWith("doors")) doors = (Integer) Core.parseConfigInput(line.split(Pattern.quote("="))[1]);
+            if (line.startsWith("model")) model = (Integer) Core.parseConfigInput(line.split(Pattern.quote("="))[1]);
+            if (line.startsWith("reliability")) reliability = (Integer) Core.parseConfigInput(line.split(Pattern.quote("="))[1]);
         }
         if (basePrice == -1 || engine == -1 || doors == -1 || model == -1 || reliability == -1) return true;
         CAR_LIST.add(new Car(name, basePrice, engine, doors, model, reliability));
